@@ -8,12 +8,29 @@
 
 <body>
 <main>
-  <h1>GitHub Pages のサンプルです</h1>
-  <a href="http://www.tam-tam.co.jp/tipsnote/"><button>TipsNote に戻る</button></a>
+  <h1>端末のセンサー取得</h1>
+  <h2>加速度センサー</h1>
+  <div>
+    <span>X:</span><span id="accX" /><br>
+    <span>Y:</span><span id="accY" /><br>
+    <span>Z:</span><span id="accZ" />
+  </div>
 </main>
 
 <script>
-console.log('GitHub Pages Sample');
+function handleMotionEvent(event) {
+
+    var x = event.accelerationIncludingGravity.x;
+    var y = event.accelerationIncludingGravity.y;
+    var z = event.accelerationIncludingGravity.z;
+
+    // Do something awesome.
+  getElementById("accX").text = x;
+  getElementById("accY").text = y;
+  getElementById("accZ").text = z;
+}
+
+window.addEventListener("devicemotion", handleMotionEvent, true);
 </script>
 </body>
 </html>
