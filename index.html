@@ -9,12 +9,29 @@
 <body>
 <main>
   <h1>端末のセンサー取得</h1>
-  <h2>加速度センサー</h1>
+  <h2>加速度センサー</h2>
   <div>
-    <span>X:</span><span id="accX" /><br>
-    <span>Y:</span><span id="accY" /><br>
-    <span>Z:</span><span id="accZ" />
+    <span>X:</span><span id="accX"></span><br>
+    <span>Y:</span><span id="accY"></span><br>
+    <span>Z:</span><span id="accZ"></span>
   </div>
+  <h2>回転ベクトル</h2>
+  <div>
+    <span>X:</span><span id="rotX"></span><br>
+    <span>Y:</span><span id="rotY"></span><br>
+    <span>Z:</span><span id="rotZ"></span>
+  </div>
+  <h2>ジャイロスコープ</h2>
+  <div>
+    <span>X:</span><span id="gyroX">0</span><br>
+    <span>Y:</span><span id="gyroY">0</span><br>
+    <span>Z:</span><span id="gyroZ">0</span>
+  </div>
+
+  <h2>カメラ起動</h2>
+  <form class="inner">
+    <input type="file" accept="image/*;capture=camera" />
+  </form>
 </main>
 
 <script>
@@ -25,12 +42,27 @@ function handleMotionEvent(event) {
     var z = event.accelerationIncludingGravity.z;
 
     // Do something awesome.
-  getElementById("accX").text = x;
-  getElementById("accY").text = y;
-  getElementById("accZ").text = z;
+  document.getElementById("accX").innerText = x != null ? String(x) : 0.0;
+  document.getElementById("accY").innerText = y != null ? String(y) : 0.0;
+  document.getElementById("accZ").innerText = z != null ? String(z) : 0.0;
+
+  var a = event.rotationRate.alpha;
+  var b = event.rotationRate.beta;
+  var g = event.rotationRate.gamma;
+
+  document.getElementById("rotX").innerText = a != null ? String(a) : 0.0;
+  document.getElementById("rotY").innerText = b != null ? String(b) : 0.0;
+  document.getElementById("rotZ").innerText = g != null ? String(g) : 0.0;
 }
 
 window.addEventListener("devicemotion", handleMotionEvent, true);
+var gyroscope = new Gyroscope({frequency: 60});
+gyroscope.addEventListener('reading', e => {
+  document.getElementById("gyroX").innerText = gyroscope.x != null ? gyroscope.x : 0.0;
+  document.getElementById("gyroY").innerText = gyroscope.y != null ? gyroscope.y : 0.0;
+  document.getElementById("gyroZ").innerText = gyroscope.z != null ? gyroscope.z : 0.0;
+});
+gyroscope.start();
 </script>
 </body>
 </html>
